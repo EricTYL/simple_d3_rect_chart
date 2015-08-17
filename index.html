@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <meta charset="UTF-8">
+  <head>
+    <script src="d3.min.js"></script>
+  </head>
+  <body>
+
+    <h1>Local Host: 3333</h1>
+
+    <script type="text/javascript">
+
+      var svg_w = 800;
+      var svg_h = 600;
+      var svg_h500 = 500;
+      var bar_padding = 10;
+      var dataset = [ 30, 20, 55, 36, 29, 43, 88, 77, 39 ];
+
+      var svg = d3.select("body")
+                  .append("svg")
+                  .attr("width", svg_w)
+                  .attr("height", svg_h);
+
+      // Draws rectangle by each data
+      svg.selectAll("rect")
+          .data(dataset)
+          .enter()
+          .append("rect")
+          .attr("x", function(d,i){
+            return i * ( svg_w / dataset.length );
+          })
+          .attr("y", function(d){
+            return svg_h500 * (1 - d/100) + 100;
+          })
+          .attr("width", svg_w / dataset.length - bar_padding)
+          .attr("height", function(d){
+            return svg_h500 * d/100;
+          })
+          .attr("fill", function(d){
+            return "rgb(" + parseInt(120 * d/100) + "," + parseInt(200 * d/100) + ",0)";
+          });
+
+      // Fills in value by each data
+      svg.selectAll("text")
+          .data(dataset)
+          .enter()
+          .append("text")
+          .text(function(d){
+            return d;
+          })
+          .attr("text-anchor", "middle")
+          .attr("x", function(d,i){
+            return i * ( svg_w / dataset.length ) + ( svg_w / dataset.length - bar_padding) / 2;
+          })
+          .attr("y", function(d){
+            return svg_h500 * (1 - d/100) + 75;
+          })
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "30px");
+
+    </script>
+  </body>
+</html>
